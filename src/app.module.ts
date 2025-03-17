@@ -8,16 +8,16 @@ import { GlobalExceptionFilter } from './common/filters/http-exception.filter';
 import { ThrottlerGuard } from '@nestjs/throttler';
 
 @Module({
-    imports: [CoreModule],
-    controllers: [AppController],
-    providers: [
-        AppService,
-        { provide: APP_FILTER, useClass: GlobalExceptionFilter },
-        { provide: APP_GUARD, useClass: ThrottlerGuard },
-    ],
+  imports: [CoreModule],
+  controllers: [AppController],
+  providers: [
+    AppService,
+    { provide: APP_FILTER, useClass: GlobalExceptionFilter },
+    { provide: APP_GUARD, useClass: ThrottlerGuard },
+  ],
 })
 export class AppModule implements NestModule {
-    configure(consumer: MiddlewareConsumer) {
-        consumer.apply(LoggerMiddleware).forRoutes('*');
-    }
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
 }

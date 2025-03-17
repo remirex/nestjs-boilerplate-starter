@@ -5,7 +5,7 @@ import { LoggerModule } from './logger/logger.module';
 import { ThrottlerConfig } from './throttle/throttler.config';
 
 @Module({
-    imports: [ApiConfigModule, DatabaseModule, LoggerModule, ThrottlerConfig],
-    exports: [ThrottlerConfig],
+  imports: [ApiConfigModule, DatabaseModule, LoggerModule, ThrottlerConfig],
+  exports: [ThrottlerConfig],
 })
 export class CoreModule {}
