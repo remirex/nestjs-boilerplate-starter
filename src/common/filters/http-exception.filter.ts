@@ -6,7 +6,7 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { LoggerService } from 'src/core/logger/providers/logger.service';
+import { LoggerService } from 'src/core/logger/logger.service';
 
 @Injectable()
 export class GlobalExceptionFilter implements ExceptionFilter {

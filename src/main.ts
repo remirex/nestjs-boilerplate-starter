@@ -1,8 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { LoggerService } from './core/logger/providers/logger.service';
-import { ApiConfigService } from './core/config/providers/config.service';
+import { LoggerService } from './core/logger/logger.service';
+import { ApiConfigService } from './core/config/config.service';
 import helmet from 'helmet';
 import * as compression from 'compression';
 import * as express from 'express';

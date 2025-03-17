@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ApiConfigService } from '../config/providers/config.service';
+import { ApiConfigService } from '../config/config.service';
 import { DataSource } from 'typeorm';
-import { LoggerService } from '../logger/providers/logger.service';
+import { LoggerService } from '../logger/logger.service';
 
 @Module({
   imports: [

@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ApiConfigService } from '../config/providers/config.service';
+import { ApiConfigService } from '../config/config.service';
 import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
