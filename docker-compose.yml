@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules # Avoid overwriting node_modules
+    env_file:
+      - .env
+    depends_on:
+      - db # Ensure the database service starts before the app
+    command: npm run start:dev
+
+  db:
+    image: mariadb:latest
+    container_name: mariadb_container
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - '3307:3307'
+    volumes:
+      - mariadb_data:/var/lib/mysql # Persistent database storage
+
+volumes:
+  mariadb_data:
+    driver: local
