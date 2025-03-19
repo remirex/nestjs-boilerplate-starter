@@ -35,15 +35,28 @@ export class ApiConfigService {
     }
   }
 
+  private getBoolean(key: string): boolean {
+    const value = this.get(key);
+
+    try {
+      return Boolean(JSON.parse(value));
+    } catch {
+      throw new Error(`${key} env var is not a boolean`);
+    }
+  }
+
   get nodeEnv(): string {
     return this.getString('NODE_ENV');
   }
 
-  get app() {
+  get appConfig() {
     return {
       port: this.getNumber('PORT'),
       origins: this.getString('CORS_ORIGIN'),
       url: this.getString('APP_URL'),
+      debug: this.getBoolean('APP_DEBUG'),
+      logLevel: this.getString('APP_LOG_LEVEL'),
+      logService: this.getString('APP_LOG_SERVICE'),
     };
   }
 

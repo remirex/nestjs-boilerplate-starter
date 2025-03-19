@@ -4,8 +4,8 @@ import { AppService } from './app.service';
 import { CoreModule } from './core/core.module';
 import { LoggerMiddleware } from './core/logger/logger.middleware';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
-import { GlobalExceptionFilter } from './common/filters/http-exception.filter';
 import { ThrottlerGuard } from '@nestjs/throttler';
+import { GlobalExceptionFilter } from './filters/global-exception.filter';
 
 @Module({
   imports: [CoreModule],

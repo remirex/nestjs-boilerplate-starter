@@ -1,8 +1,8 @@
-import { Module } from '@nestjs/common';
+import { Module, OnModuleInit } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApiConfigService } from '../config/config.service';
 import { DataSource } from 'typeorm';
-import { LoggerService } from '../logger/logger.service';
+import { addTransactionalDataSource } from 'typeorm-transactional';
 
 @Module({
   imports: [
@@ -15,25 +15,25 @@ import { LoggerService } from '../logger/logger.service';
           throw new Error('Invalid options passed');
         }
 
-        const logger = new LoggerService();
-
-        try {
-          logger.log('⏳ Pokušaj konekcije sa bazom...');
-          const dataSource = await new DataSource(options).initialize();
-          logger.log('✅ Uspostavljena konekcija sa bazom podataka!');
-          return dataSource;
-        } catch (error) {
-          const errorMessage =
-            error instanceof Error
-              ? (error.stack ?? error.message)
-              : 'Nepoznata greška';
-
-          logger.error('❌ Greška pri povezivanju sa bazom!', errorMessage);
-
-          throw error;
-        }
+        return Promise.resolve(
+          addTransactionalDataSource(new DataSource(options)),
+        );
       },
     }),
   ],
 })
-export class DatabaseModule {}
+export class DatabaseModule implements OnModuleInit {
+  constructor(private readonly dataSource: DataSource) {}
+
+  onModuleInit() {
+    try {
+      if (this.dataSource.isInitialized) {
+        console.log('Database connection is active');
+      } else {
+        console.error('Database connection is not established');
+      }
+    } catch (error) {
+      console.error('Error checking database connection:', error);
+    }
+  }
+}

@@ -6,12 +6,14 @@ import { ApiConfigService } from './core/config/config.service';
 import helmet from 'helmet';
 import * as compression from 'compression';
 import * as express from 'express';
+import { initializeTransactionalContext } from 'typeorm-transactional';
 
 async function bootstrap() {
+  initializeTransactionalContext();
   const app = await NestFactory.create(AppModule);
   const logger = app.get(LoggerService);
   const configService = app.get(ApiConfigService);
-  const port = configService.app.port ?? 3000;
+  const port = configService.appConfig.port ?? 3000;
   const nodeEnv = configService.nodeEnv || 'development';
 
   // Security & Performance Middlewares
@@ -27,8 +29,8 @@ async function bootstrap() {
   app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
   // CORS Configuration
-  const allowedOrigins = configService.app.origins
-    ? configService.app.origins.split(',').map((origin) => origin.trim())
+  const allowedOrigins = configService.appConfig.origins
+    ? configService.appConfig.origins.split(',').map((origin) => origin.trim())
     : ['https://yourdomain.com'];
 
   app.enableCors({
