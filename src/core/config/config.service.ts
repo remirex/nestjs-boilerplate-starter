@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { ThrottlerOptions } from '@nestjs/throttler';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { isNil } from 'lodash';
+import parse from 'parse-duration';
 
 @Injectable()
 export class ApiConfigService {
@@ -45,6 +47,20 @@ export class ApiConfigService {
     }
   }
 
+  private getDuration(
+    key: string,
+    format?: Parameters<typeof parse>[1],
+  ): number {
+    const value = this.get(key);
+    const duration = parse(value, format);
+
+    if (duration === null) {
+      throw new Error(`${key} environment variable is not a valid duration`);
+    }
+
+    return duration;
+  }
+
   get nodeEnv(): string {
     return this.getString('NODE_ENV');
   }
@@ -60,9 +76,9 @@ export class ApiConfigService {
     };
   }
 
-  get rateLimit() {
+  get throttlerConfigs(): ThrottlerOptions {
     return {
-      ttl: this.getNumber('THROTTLE_TTL'),
+      ttl: this.getDuration('THROTTLE_TTL'),
       limit: this.getNumber('THROTTLE_LIMIT'),
     };
   }

@@ -8,7 +8,6 @@ export class LoggerService {
   private logger: winston.Logger;
 
   constructor(private readonly configService: ApiConfigService) {
-    //super();
     const logLevel = this.configService.appConfig.logLevel;
     const logService = this.configService.appConfig.logService;
     const isDebug = this.configService.appConfig.debug;

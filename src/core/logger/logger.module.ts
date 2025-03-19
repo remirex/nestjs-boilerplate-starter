@@ -4,7 +4,7 @@ import { ApiConfigService } from '../config/config.service';
 
 @Global()
 @Module({
-  providers: [LoggerService, ApiConfigService],
+  providers: [LoggerService],
   exports: [LoggerService],
 })
 export class LoggerModule {}

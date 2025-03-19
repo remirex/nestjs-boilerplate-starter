@@ -56,6 +56,7 @@ async function bootstrap() {
     await app.listen(port);
     logger.log(`🚀 Server running on Port: ${port}`);
     logger.log(`🌍 Environmet: ${nodeEnv}`);
+    console.log(configService.throttlerConfigs.ttl);
   } catch (error) {
     logger.error(
       '❌ Error launching the application!',

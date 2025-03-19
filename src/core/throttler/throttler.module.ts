@@ -6,12 +6,9 @@ import { ThrottlerModule } from '@nestjs/throttler';
   imports: [
     ThrottlerModule.forRootAsync({
       inject: [ApiConfigService],
-      useFactory: (config: ApiConfigService) => [
-        {
-          ttl: config.rateLimit.ttl,
-          limit: config.rateLimit.limit,
-        },
-      ],
+      useFactory: (config: ApiConfigService) => ({
+        throttlers: [config.throttlerConfigs],
+      }),
     }),
   ],
 })
